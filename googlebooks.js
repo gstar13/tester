@@ -1,4 +1,5 @@
 require("dotenv").config();
+const API_KEY = process.env.API_KEY;
 var inquirer = require("inquirer");
 var axios = require("axios");
 
@@ -13,20 +14,11 @@ function googleApiResponse() {
         console.log("The topic was undefined");
     }
     //http request
-    axios.get("https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&key=AIzaSyC6R_GmQ8RAr0i49iP8DcPTQwxLyrjXEko")
+    axios.get("https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&key=" + API_KEY)
         .then(function (response) {
 
-            for (var i = 0; i < 5; i++) {
-                var item = response.data.items[i].volumeInfo;
+            printQueryResults(response);
 
-                console.log("\n");
-                console.log((i + 1) + ".");
-                console.log("Title: " + item.title);
-                console.log("Author: " + item.authors);
-                console.log("Publishing Company: " + item.publisher);
-                console.log("--------------------------------------");
-                console.log("\n");
-            }
             console.log("Select a book to save to the Reading List:");
             inquirer
                 .prompt([
@@ -38,10 +30,10 @@ function googleApiResponse() {
                 ])
                 .then(function (answer) {
 
-                    var bookSelection = parseInt(answer.bookId);
-                    var bookSelected = (bookSelection - 1);
 
-                    var savedBook = response.data.items[bookSelected].volumeInfo.title;
+                    var bookSelectedToSavetoReadingList = (answer.bookId - 1);
+                    var savedBook = response.data.items[bookSelectedToSavetoReadingList].volumeInfo.title;
+
                     console.log("\n");
                     console.log("You have chosen to save " + savedBook + " to the Reading list.");
                     console.log("\n");
@@ -50,12 +42,15 @@ function googleApiResponse() {
                         var LocalStorage = require('node-localstorage').LocalStorage;
                         localStorage = new LocalStorage('./scratch');
                     }
-                    localStorage.setItem("savedBooks"[0], savedBook);
+                    const savedBooks = JSON.parse(localStorage.getItem("savedBooks")) || [];
+                    savedBooks.push(savedBook);
+                    localStorage.setItem("savedBooks", JSON.stringify(savedBooks));
+
                     console.log("Reading List");
                     console.log("-----------------");
-                    console.log(localStorage.getItem("savedBooks"[0]));
-                    console.log(localStorage.getItem("savedBooks"[1]));
-                    console.log(localStorage.getItem("savedBooks"[2]));
+                    var theReadingList = localStorage.getItem("savedBooks");
+                    console.log(JSON.parse(theReadingList));
+
 
                 }).catch(function (error) {
 
@@ -64,12 +59,22 @@ function googleApiResponse() {
 
                 })
                 .finally(function () {
-
                     console.log("Enjoy Your Reading!");
                 });
         });
 };
-
+//fxn Command Center
+function printQueryResults(response) {
+    for (var i = 0; i < 5; i++) {
+        var item = response.data.items[i].volumeInfo;
+        console.log((i + 1) + ".");
+        console.log("Title: " + item.title);
+        console.log("Author: " + item.authors);
+        console.log("Publishing Company: " + item.publisher);
+        console.log("--------------------------------------");
+        console.log("\n");
+    }
+}
 googleApiResponse();
 
 
