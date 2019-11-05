@@ -62,10 +62,12 @@ function googleApiResponse() {
                         localStorage = new LocalStorage('./scratch');
                     }
                     localStorage.setItem("ReadingList", savedBook);
+                    
                     console.log("Reading List");
                     console.log("-----------------");
-                    console.log("hi1" + localStorage.getItem("ReadingList"));
-                    console.log(localStorage);
+                    console.log("hi you've added " + localStorage.getItem("ReadingList") + "to your reading list");
+                   
+                   
                 }).catch(function (error) {
 
                     console.log("See error code below");
