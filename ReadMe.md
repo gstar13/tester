@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 This command line program will ask the user for a search term, pull 5 books with that term in the title from the Google Books website, print them and ask the user which one they would like to save. Then that selection is saved in local storage and all queries are then printed for the reader to view.
 In order to run this program you must have your own googlebooks API key to insert into the .env file. You can get this at https://developers.google.com/books You must have a googleaccount to acquire an API key. Once you have one, go to the 'Using the API' tab and scroll down to the 'To acquire an API key' section. It will instruct you to go the the credentials page (https://console.developers.google.com/apis/credentials) where you can create credentials and you will receive an API Key.
 
@@ -24,6 +23,3 @@ This will give you a numbered list of 5 book titles, along with their author and
 The program will then inform you of which book title you have chosen to save and will list it for you under the heading 'Reading List'.
 This is the end of the program but all of your selections are saved in the local storage and will continue to be displayed on your reading list along with the new book you have chosen to save each time you run the program.
 
-=======
-This command line program will ask the user for a search term, pull 5 books with that term in the title from the Google Books API, print them to the console and ask the user which one they would like to save. Then that selection is saved in local storage and all queries are then printed for the reader to view.
->>>>>>> cd50c17e88e6f4109170b7800bc9a3c47b382d8d
