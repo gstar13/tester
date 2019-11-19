@@ -10,8 +10,8 @@ function googleApiResponse() {
     console.log("Hello,");
     console.log("You have chosen to search for book titles containing the word: " + searchTopic + ".");
     if (searchTopic === undefined) {
-        var searchTopic = "Gray's Anatomy";
-        console.log("The topic was undefined");
+        
+        console.log("You did not enter a proper search term for your book search. Please run the program again and enter a proper search term.");
     }
     //http request
     axios.get("https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&key=" + API_KEY)
@@ -27,11 +27,18 @@ function googleApiResponse() {
                         name: "bookId",
                         message: "Enter the number of your selection",
                     }
+                    
                 ])
                 .then(function (answer) {
 
-
+                    if (answer.bookId >= 6) {
+                        console.log("Please only enter a number from 1-5");
+                    };
                     var bookSelectedToSavetoReadingList = (answer.bookId - 1);
+                    if (bookSelectedToSavetoReadingList >= 6) {
+                        console.log("Please choose from selections 1-5");
+                        //inquirer();
+                    };
                     var savedBook = response.data.items[bookSelectedToSavetoReadingList].volumeInfo.title;
 
                     console.log("\n");
@@ -73,7 +80,12 @@ function printQueryResults(response) {
         console.log("Publishing Company: " + item.publisher);
         console.log("--------------------------------------");
         console.log("\n");
+       
     }
+   
+}
+function negateSelectionsNotOffered(response){
+    
 }
 googleApiResponse();
 
