@@ -1,4 +1,3 @@
-//require("dotenv").config();
 var inquirer = require("inquirer");
 var axios = require("axios");
 var searchTopic = process.argv.slice(2).join(" ");
