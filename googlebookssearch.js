@@ -1,5 +1,6 @@
 require("dotenv").config();
 const API_KEY = process.env.API_KEY;
+
 var inquirer = require("inquirer");
 var axios = require("axios");
 
@@ -35,10 +36,10 @@ function googleApiResponse() {
                         console.log("Please only enter a number from 1-5");
                     };
                     var bookSelectedToSavetoReadingList = (answer.bookId - 1);
-                    if (bookSelectedToSavetoReadingList >= 6) {
-                        console.log("Please choose from selections 1-5");
-                        //inquirer();
-                    };
+                    // if (bookSelectedToSavetoReadingList >= 6) {
+                    //     console.log("Please choose from selections 1-5");
+                    //     //inquirer();
+                    // };
                     var savedBook = response.data.items[bookSelectedToSavetoReadingList].volumeInfo.title;
 
                     console.log("\n");
@@ -88,5 +89,8 @@ function negateSelectionsNotOffered(response){
     
 }
 googleApiResponse();
+
+//Todo
+//make sure only 5 choices are available to save
 
 
