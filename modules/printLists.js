@@ -21,7 +21,7 @@ var printResults = {
         console.log("-----------------");
         var theReadingList = localStorage.getItem("savedBooks");
         console.log(JSON.parse(theReadingList));
-
+        console.log("Enjoy Your Reading!");
 
 
     }

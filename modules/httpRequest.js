@@ -10,7 +10,7 @@ var showSavedBook = require('./saveSelections.js');
 var hitGoogleApi = {
 
     request: function (searchTopic, key) {
-        var key = "";
+        var key = "AIzaSyC6R_GmQ8RAr0i49iP8DcPTQwxLyrjXEko";
         var searchTopic = process.argv.slice(2).join(" ");
         axios.get("https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&key=" + key)
             .then(function (response) {
@@ -28,23 +28,27 @@ var hitGoogleApi = {
                         }
                     ])
                     .then(function (answer) {
+                        if (answer.bookId > 5) {
+                           console.log("Please make a new selection, 1-5 only");
+                            hitGoogleApi.request();
 
-                        var bookSelectedToSavetoReadingList = (answer.bookId - 1);
-                        var savedBook = response.data.items[bookSelectedToSavetoReadingList].volumeInfo.title;
+                        } else {
+                            var bookSelectedToSavetoReadingList = (answer.bookId - 1);
+                            var savedBook = response.data.items[bookSelectedToSavetoReadingList].volumeInfo.title;
 
-                        showSavedBook.tellReaderWhatTheySaved(savedBook);
+                            showSavedBook.tellReaderWhatTheySaved(savedBook);
 
 
-                        if (typeof localStorage === "undefined" || localStorage === null) {
-                            var LocalStorage = require('node-localstorage').LocalStorage;
-                            localStorage = new LocalStorage('./scratch');
+                            if (typeof localStorage === "undefined" || localStorage === null) {
+                                var LocalStorage = require('node-localstorage').LocalStorage;
+                                localStorage = new LocalStorage('./scratch');
+                            }
+                            const savedBooks = JSON.parse(localStorage.getItem("savedBooks")) || [];
+                            savedBooks.push(savedBook);
+                            localStorage.setItem("savedBooks", JSON.stringify(savedBooks));
+
+                            printTheReadingList.ReadingList();
                         }
-                        const savedBooks = JSON.parse(localStorage.getItem("savedBooks")) || [];
-                        savedBooks.push(savedBook);
-                        localStorage.setItem("savedBooks", JSON.stringify(savedBooks));
-
-                        printTheReadingList.ReadingList();
-
                     }).catch(function (error) {
 
                         console.log("See error code below");
@@ -52,7 +56,7 @@ var hitGoogleApi = {
 
                     })
                     .finally(function () {
-                        console.log("Enjoy Your Reading!");
+                        
                     });
 
             })
