@@ -10,7 +10,7 @@ var showSavedBook = require('./saveSelections.js');
 var hitGoogleApi = {
 
     request: function (searchTopic, key) {
-        var key = "AIzaSyC6R_GmQ8RAr0i49iP8DcPTQwxLyrjXEko";
+        var key = "";
         var searchTopic = process.argv.slice(2).join(" ");
         axios.get("https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&key=" + key)
             .then(function (response) {
